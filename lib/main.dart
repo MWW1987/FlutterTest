@@ -1,7 +1,8 @@
+import 'package:first_app/quiz.dart';
 import 'package:flutter/material.dart';
 
-import './question.dart';
 import './answer.dart';
+import './result.dart';
 
 void main() => runApp(MyApp());
 
@@ -22,35 +23,29 @@ class MyAppState extends State<MyApp> {
     print('kiram dahanet ' + answerIndex.toString() + ' bar');
   }
 
+  final question = [
+    {
+      'q': 'کص عمه ت رو چطور توصیف میکنی',
+      'a': ['تپلی', 'قلمبه', 'گشاد', 'همه موارد']
+    },
+    {
+      'q': 'عمه ت جنده س؟',
+      'a': ['بله', 'کونیه', 'مقدسه', 'ب و ج']
+    },
+    {
+      'q': 'شما آیا کونی هستید؟',
+      'a': ['عمته', 'ننته', 'بله', 'همه موارد']
+    }
+  ];
   Widget build(BuildContext context) {
-    var question = [
-      {
-        'q': 'کص عمه ت رو چطور توصیف میکنی',
-        'a': ['تپلی', 'قلمبه', 'گشاد', 'همه موارد']
-      },
-      {
-        'q': 'عمه ت جنده س؟',
-        'a': ['بله', 'کونیه', 'مقدسه', 'ب و ج']
-      },
-      {
-        'q': 'شما آیا کونی هستید؟',
-        'a': ['عمته', 'ننته', 'بله', 'همه موارد']
-      }
-    ];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text('اولین برنامه کیری من'),
         ),
-        body: Column(
-          children: <Widget>[
-            Question(question[answerIndex]['q']),
-            Answer(answerQuestion, question[answerIndex]['a']),
-            Answer(answerQuestion),
-            Answer(answerQuestion),
-            Answer(answerQuestion)
-          ],
-        ),
+        body: answerIndex < question.length
+            ? Quiz(question: question, answerQuestion: answerQuestion, answerIndex: answerIndex,)
+            : Result(),
       ),
     );
   }
