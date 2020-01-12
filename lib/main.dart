@@ -1,7 +1,6 @@
 import 'package:first_app/quiz.dart';
 import 'package:flutter/material.dart';
 
-import './answer.dart';
 import './result.dart';
 
 void main() => runApp(MyApp());
@@ -16,7 +15,15 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   var answerIndex = 0;
-  void answerQuestion() {
+  var totalScore = 0;
+
+  void resetQuiz() {
+    setState(() {
+      answerIndex = totalScore = 0;
+    });
+  }
+  void answerQuestion(int score) {
+    totalScore += score;
     setState(() {
       answerIndex += 1;
     });
@@ -26,15 +33,30 @@ class MyAppState extends State<MyApp> {
   final question = [
     {
       'q': 'کص عمه ت رو چطور توصیف میکنی',
-      'a': ['تپلی', 'قلمبه', 'گشاد', 'همه موارد']
+      'a': [
+        {'text': 'تپلی', 'score': 4},
+        {'text': 'قلمبه', 'score': 7},
+        {'text': 'گشاد', 'score': 0},
+        {'text': 'همه موارد', 'score': 10}
+      ]
     },
     {
       'q': 'عمه ت جنده س؟',
-      'a': ['بله', 'کونیه', 'مقدسه', 'ب و ج']
+      'a': [
+        {'text': 'بله', 'score': 10},
+        {'text': 'کونیه', 'score': 7},
+        {'text': 'مقدسه', 'score': 0},
+        {'text': 'ب و ج', 'score': 4}
+      ]
     },
     {
       'q': 'شما آیا کونی هستید؟',
-      'a': ['عمته', 'ننته', 'بله', 'همه موارد']
+      'a': [
+        {'text': 'عمته', 'score': 10},
+        {'text': 'خودتی', 'score': 4},
+        {'text': 'بله', 'score': 7},
+        {'text': 'همه موارد', 'score': 0}
+      ]
     }
   ];
   Widget build(BuildContext context) {
@@ -44,8 +66,12 @@ class MyAppState extends State<MyApp> {
           title: Text('اولین برنامه کیری من'),
         ),
         body: answerIndex < question.length
-            ? Quiz(question: question, answerQuestion: answerQuestion, answerIndex: answerIndex,)
-            : Result(),
+            ? Quiz(
+                question: question,
+                answerQuestion: answerQuestion,
+                answerIndex: answerIndex,
+              )
+            : Result(totalScore, resetQuiz),
       ),
     );
   }
